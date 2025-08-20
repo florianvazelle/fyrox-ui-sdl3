@@ -13,8 +13,6 @@ use std::mem::offset_of;
 pub struct UiRenderer {
     pub pipeline: GraphicsPipeline,
     sampler_linear: Sampler,
-    // CPU → GPU font atlas pages (one texture per page).
-    font_pages: Vec<Texture<'static>>,
     // Cached white 1×1 for fallback.
     white_tex: Texture<'static>,
 }
@@ -125,7 +123,6 @@ impl UiRenderer {
         Self {
             pipeline,
             sampler_linear,
-            font_pages: Vec::new(),
             white_tex,
         }
     }
@@ -224,50 +221,6 @@ impl UiRenderer {
 
         Ok(())
     }
-
-    /// After `ui.draw(&mut drawing)`, call this to ensure glyph pages are on the GPU.
-    // pub fn sync_font_pages(
-    //     &mut self,
-    //     device: &Device,
-    //     font: &FontResource,
-    // ) -> Result<(), Box<dyn std::error::Error>> {
-    //     // We rebuild the list each frame for simplicity. You could keep a map (font_uuid, height, page_idx) → Texture.
-    //     self.font_pages.clear();
-
-    //     // We need mutable access to clear `modified` flags after upload.
-    //     if let Some(mut font_data) = font.state().data() {
-    //         for atlas in font_data.atlases.values_mut() {
-    //             for page in &mut atlas.pages {
-    //                 // Create/update a texture for the page if needed.
-    //                 if page.texture.is_none() {
-    //                     let w = font_data.page_size as u32;
-    //                     let h = font_data.page_size as u32;
-
-    //                     // Expand font's 8-bit alpha page → RGBA (white * alpha)
-    //                     let mut rgba = Vec::with_capacity((w * h * 4) as usize);
-    //                     for &a in &page.pixels {
-    //                         rgba.extend_from_slice(&[255, 255, 255, a]);
-    //                     }
-
-    //                     let tex = {
-    //                         let copy_cmds = device.acquire_command_buffer().unwrap();
-    //                         let copy_pass = device.begin_copy_pass(&copy_cmds).unwrap();
-    //                         let tex = create_texture(device, &copy_pass, &rgba, w, h).unwrap();
-    //                         device.end_copy_pass(copy_pass);
-    //                         copy_cmds.submit().unwrap();
-    //                         tex
-    //                     };
-
-    //                     self.font_pages.push(tex);
-
-    //                     page.modified = false;
-    //                 }
-    //             }
-    //         }
-    //     }
-
-    //     Ok(())
-    // }
 
     fn draw_command(
         &self,
@@ -388,7 +341,7 @@ impl UiRenderer {
                 //     .unwrap_or(&self.white_tex);
                 // (tex, &self.sampler_linear)
             }
-            CommandTexture::Texture(tex_res) => {
+            CommandTexture::Texture(_tex_res) => {
                 // If you have your own texture cache for UI, plug it here.
                 // For now, use white fallback.
                 (&self.white_tex, &self.sampler_linear)

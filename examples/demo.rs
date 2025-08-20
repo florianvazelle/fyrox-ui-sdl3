@@ -46,7 +46,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .with_store_op(StoreOp::STORE)
                 .with_clear_color(pixels::Color::RGB(128, 128, 128))];
 
-            fyrox_ui.render(&device, &window, &event_pump, &mut command_buffer, &color_targets);
+            let _ = fyrox_ui.render(&device, &window, &event_pump, &mut command_buffer, &color_targets);
 
             command_buffer.submit()?;
         } else {

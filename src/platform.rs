@@ -113,7 +113,7 @@ impl Platform {
     /// Frame preparation: update cursor position and advance the UI's internal clock.
     pub fn prepare_frame(&mut self, event_pump: &EventPump, ui: &mut UserInterface) {
         let now = Instant::now();
-        let dt = now.duration_since(self.last_frame);
+        let _dt = now.duration_since(self.last_frame);
         self.last_frame = now;
 
         // Cursor position update

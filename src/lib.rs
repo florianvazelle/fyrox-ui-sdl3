@@ -7,11 +7,7 @@ use crate::renderer::UiRenderer;
 use fyrox_ui::UiUpdateSwitches;
 use fyrox_ui::brush::Brush;
 use fyrox_ui::{
-    BuildContext, UiNode, UserInterface,
-    button::ButtonBuilder,
-    core::{algebra::Vector2, pool::Handle},
-    grid::{Column, GridBuilder, Row},
-    message::UiMessage,
+    UserInterface, button::ButtonBuilder, core::algebra::Vector2, grid::GridBuilder, message::UiMessage,
     text::TextBuilder,
 };
 use fyrox_ui::{core::color::Color, widget::WidgetBuilder};
@@ -93,15 +89,6 @@ impl FyroxUiSdl {
         .add_row(fyrox_ui::grid::Row::stretch())
         .add_column(fyrox_ui::grid::Column::stretch())
         .build(&mut ui.build_ctx());
-    }
-
-    pub fn editor(ui: &mut UserInterface) -> Handle<UiNode> {
-        let ctx: &mut BuildContext = &mut ui.build_ctx();
-        GridBuilder::new(WidgetBuilder::new().with_width(800.0).with_height(500.0))
-            .add_row(Row::strict(25.0))
-            .add_row(Row::stretch())
-            .add_column(Column::stretch())
-            .build(ctx)
     }
 
     pub fn handle_event(&mut self, event: &sdl3::event::Event) {
