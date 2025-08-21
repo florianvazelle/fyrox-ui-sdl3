@@ -2,7 +2,7 @@
 
 # `fyrox-ui-sdl3`
 
-**Rust library that integrates FryoxUI with SDL3.**
+**Rust library that integrates FyroxUI with SDL3.**
 
 [![Crates.io](https://img.shields.io/crates/v/fyrox-ui-sdl3.svg)](https://crates.io/crates/fyrox-ui-sdl3)
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/florianvazelle/fyrox-ui-sdl3/nix.yml)
