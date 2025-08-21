@@ -1,23 +1,18 @@
 //! SDL3 -> Fyrox UI adapter: feed SDL events into Fyrox UI.
 
-use std::time::Instant;
-
 use fyrox_ui::UserInterface;
 use fyrox_ui::core::algebra::Vector2;
 use fyrox_ui::message::{ButtonState, KeyCode, KeyboardModifiers, MouseButton, OsEvent};
 
 use sdl3::{
-    EventPump,
     event::Event,
     keyboard::{Mod, Scancode},
-    mouse::{MouseButton as SdlMouseButton, MouseState},
+    mouse::MouseButton as SdlMouseButton,
     video::Window,
 };
 
 /// SDL3 backend platform state for Fyrox UI.
-pub struct Platform {
-    last_frame: Instant,
-}
+pub struct Platform;
 
 impl Default for Platform {
     fn default() -> Self {
@@ -28,9 +23,7 @@ impl Default for Platform {
 impl Platform {
     /// Create a new platform adapter.
     pub fn new() -> Self {
-        Self {
-            last_frame: Instant::now(),
-        }
+        Self
     }
 
     /// Handle a single SDL3 event and forward it to Fyrox UI as an `OsEvent`.
@@ -106,21 +99,15 @@ impl Platform {
                 true
             }
 
+            Event::MouseMotion { x, y, .. } => {
+                ui.process_os_event(&OsEvent::CursorMoved {
+                    position: Vector2::new(x, y),
+                });
+                true
+            }
+
             _ => false,
         }
-    }
-
-    /// Frame preparation: update cursor position and advance the UI's internal clock.
-    pub fn prepare_frame(&mut self, event_pump: &EventPump, ui: &mut UserInterface) {
-        let now = Instant::now();
-        let _dt = now.duration_since(self.last_frame);
-        self.last_frame = now;
-
-        // Cursor position update
-        let mouse = MouseState::new(event_pump);
-        ui.process_os_event(&OsEvent::CursorMoved {
-            position: Vector2::new(mouse.x(), mouse.y()),
-        });
     }
 }
 

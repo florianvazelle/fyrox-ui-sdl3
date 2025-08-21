@@ -353,10 +353,10 @@ impl UiRenderer {
         pass.bind_fragment_samplers(0, &[binding]);
 
         // --- Draw triangles range
-        let start = cmd_ui.triangles.start as u32;
-        let count = (cmd_ui.triangles.end - cmd_ui.triangles.start) as u32;
+        let first_index = cmd_ui.triangles.start as u32 * 3;
+        let index_count = (cmd_ui.triangles.end - cmd_ui.triangles.start) as u32 * 3;
 
-        pass.draw_indexed_primitives(count * 3, 1, 0, (start * 3) as i32, 0);
+        pass.draw_indexed_primitives(index_count, 1, first_index, 0, 0);
 
         Ok(())
     }

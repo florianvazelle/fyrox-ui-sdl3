@@ -2,7 +2,7 @@ default:
     just --list
 
 lint:
-    cargo fmt --check
+    cargo fmt --all --check
     cargo check --all-targets --examples --tests --all-features
     cargo clippy --all-targets --examples --tests --all-features -- --deny warnings
     typos
@@ -10,7 +10,7 @@ lint:
     find shaders/ -iname *.vert -o -iname *.frag -o -iname *.comp -o -iname *.glsl | xargs clang-format --dry-run
 
 fmt:
-    cargo fmt
+    cargo fmt --all
     cargo fix --all-targets --examples --tests --allow-dirty --all-features
     cargo clippy --all-targets --fix --examples --tests --allow-dirty --all-features -- --deny warnings
     typos --write-changes

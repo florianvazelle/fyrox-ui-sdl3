@@ -34,7 +34,3 @@ void main() {
   color.a *= widget.opacity;
   fColor = color * Color; // modulate with vertex color (selection, etc.)
 }
-
-// void main() {
-//     fColor = Color * texture(sTexture, UV.st).a;
-// }
