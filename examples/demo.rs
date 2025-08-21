@@ -3,6 +3,7 @@ use sdl3::{event::Event, gpu::*, pixels};
 
 use fyrox_ui::Thickness;
 use fyrox_ui::button::ButtonMessage;
+use fyrox_ui::menu::MenuItemContent;
 use fyrox_ui::style::StyledProperty;
 use fyrox_ui::tab_control::TabDefinition;
 use fyrox_ui::{
@@ -55,7 +56,11 @@ impl DemoUi {
                 // CheckBox
                 .with_child(
                     CheckBoxBuilder::new(WidgetBuilder::new())
-                        // .with_text("Check Me")
+                        .with_content(
+                            TextBuilder::new(WidgetBuilder::new())
+                                .with_text("Check Me")
+                                .build(&mut ctx),
+                        )
                         .build(&mut ctx),
                 )
                 // TextBox
@@ -67,7 +72,7 @@ impl DemoUi {
                 // ProgressBar
                 .with_child(
                     ProgressBarBuilder::new(WidgetBuilder::new())
-                        // .with_value(0.5)
+                        .with_progress(0.5)
                         .build(&mut ctx),
                 )
                 // NumericUpDown
@@ -193,7 +198,7 @@ impl DemoUi {
                     MenuBuilder::new(WidgetBuilder::new())
                         .with_items(vec![
                             MenuItemBuilder::new(WidgetBuilder::new())
-                                // .with_content(TextBuilder::new(WidgetBuilder::new()).with_text("File").build(&mut ctx))
+                                .with_content(MenuItemContent::text("File"))
                                 .build(&mut ctx),
                         ])
                         .build(&mut ctx),
