@@ -5,8 +5,8 @@ use fyrox_ui::draw::Command;
 use fyrox_ui::draw::CommandTexture;
 use fyrox_ui::draw::DrawingContext;
 use sdl3::gpu::*;
+use sdl3::sys::gpu::SDL_GPUViewport;
 use sdl3::video::Window;
-use sdl3_sys::gpu::SDL_GPUViewport;
 use std::mem::offset_of;
 
 /// GPU resources for the UI render pass.
@@ -246,7 +246,7 @@ impl UiRenderer {
             // SDL uses top-left origin for GPU scissor.
             // If yours is bottom-left, flip Y accordingly. With SDL3 it’s top-left.
             let rect = sdl3::rect::Rect::new(sc_x, sc_y, sc_w, sc_h);
-            sdl3_sys::gpu::SDL_SetGPUScissor(pass.raw(), rect.raw());
+            sdl3::sys::gpu::SDL_SetGPUScissor(pass.raw(), rect.raw());
         }
 
         // --- Pack fyrox_widgetData
