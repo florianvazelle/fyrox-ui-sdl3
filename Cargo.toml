@@ -11,7 +11,7 @@ categories = ["gui", "rendering", "graphics"]
 readme = "README.md"
 
 [dependencies]
-fyrox-ui = "0.36.2"
+fyrox-ui = "1.0.0"
 sdl3 = "0.14.40"
 
 [build-dependencies]
